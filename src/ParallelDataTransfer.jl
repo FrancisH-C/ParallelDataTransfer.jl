@@ -24,11 +24,11 @@ module ParallelDataTransfer
 
   macro defineat(p,ex,mod=Main)
     quote
-      remotecall_wait($(esc(p)),$(esc(mod)),$(QuoteNode(ex))) do mod,ex
+      remotecall($(esc(p)),$(esc(mod)),$(QuoteNode(ex)))
         Core.eval(mod,ex)
-      end
     end
   end
+
 
   function passobj(src::Int, target::AbstractVector{Int}, nm::Symbol;
                    from_mod=Main, to_mod=Main)
@@ -90,7 +90,7 @@ module ParallelDataTransfer
       end
   end
 
-
   export sendtosimple, @sendto, sendto, getfrom, passobj,
          @broadcast, @getfrom, @passobj, @defineat, include_remote
 end # module
+
